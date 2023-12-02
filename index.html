@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
+        <title>Relative error calculator</title>
+    </head>
+    <body>
+        <div id="container">
+            <div id="std_dev">
+                <p>Standard deviation (odchylenie standardowe)</p>
+
+                <p>
+                    \(\Delta x = \sqrt{ \displaystyle\sum_{i=1}^{N}(\bar x - x_i)^2 \over N - 1}\)
+                </p>
+                
+                <p>N: <input id="n" /></p>
+                <p>\( \bar x \): <input /></p>
+            </div>
+
+            <div>
+                <p>Relative error (błąd względny)</p>
+                \( \left | \Delta x \over x \right | = \sqrt{ \left ( \Delta a \over a \right )^2 + \left ( \Delta b \over b \right )^2 + ... + \left ( \Delta z \over z \right )^2} \)
+            </div>
+        </div>
+    </body>
+</html>

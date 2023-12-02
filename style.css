@@ -1,0 +1,16 @@
+p {
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 60px;
+}
+
+#std_dev {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}

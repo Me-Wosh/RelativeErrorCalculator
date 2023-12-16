@@ -28,7 +28,7 @@
                 <p id="deviation">
                     \(\Delta x = \sqrt{ \displaystyle\sum_{i=1}^{N}(\bar x - x_i)^2 \over N - 1}\)
                 </p>
-                
+
                 <p>
                     Note: Use dots in floating point numbers e.g. 5.43 instead of 5,42
                 </p> 
@@ -39,8 +39,8 @@
 
                 <div id="std_dev_inputs">
                     <div>
-                        <label for="n">N:</label>
-                        <input id="n" />
+                        <label for="n_std_dev">N:</label>
+                        <input id="n_std_dev" />
                     </div>
                 
                     <div>
@@ -52,9 +52,21 @@
                 <button id="calculate_deviation">Calculate</button>
             </div>
 
-            <div>
+            <div id="rltv_err">
                 <p>Relative error (błąd względny)</p>
-                \( \left | \Delta x \over x \right | = \sqrt{ \left ( \Delta a \over a \right )^2 + \left ( \Delta b \over b \right )^2 + ... + \left ( \Delta z \over z \right )^2} \)
+
+                <p id="relative_error">
+                    \( \left | \Delta x \over x \right | = \sqrt{ \left ( \Delta a \over a \right )^2 + \left ( \Delta b \over b \right )^2 + ... + \left ( \Delta z \over z \right )^2} \)
+                </p>
+
+                <div id="rltv_err_inputs">
+                    <div>
+                        <label for="n_rltv_err">n:</label>
+                        <input id="n_rltv_err" />
+                    </div>
+                </div>
+
+                <button id="calculate_rltv_err">Calculate</button>
             </div>
         </div>
     </body>

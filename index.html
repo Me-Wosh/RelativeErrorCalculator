@@ -22,12 +22,14 @@
     </head>
     <body>
         <div id="container">
-            <div id="std_dev">
+            <div id="std_dev" class="column_div">
                 <p>Standard deviation (odchylenie standardowe)</p>
                 
-                <p id="deviation">
-                    \(\Delta x = \sqrt{ \displaystyle\sum_{i=1}^{N}(\bar x - x_i)^2 \over N - 1}\)
-                </p>
+                <div id="deviation_container" class="column_div">
+                    <p id="deviation">
+                        \(\Delta x = \sqrt{ \displaystyle\sum_{i=1}^{N}(\bar x - x_i)^2 \over N - 1}\)
+                    </p>
+                </div>
 
                 <p>
                     Note: Use dots in floating point numbers e.g. 5.43 instead of 5,42
@@ -40,33 +42,35 @@
                 <div id="std_dev_inputs">
                     <div>
                         <label for="n_std_dev">N:</label>
-                        <input id="n_std_dev" />
+                        <input id="n_std_dev" tabindex="0"/>
                     </div>
                 
                     <div>
                         <label for="avg_x">\( \bar x \):</label>
-                        <input id="avg_x" />
+                        <input id="avg_x" tabindex="0"/>
                     </div>
                 </div>
 
-                <button id="calculate_deviation">Calculate</button>
+                <button id="calculate_deviation" tabindex="0">Calculate</button>
             </div>
 
-            <div id="rltv_err">
+            <div id="rltv_err" class="column_div">
                 <p>Relative error (błąd względny)</p>
 
-                <p id="relative_error">
-                    \( \left | \Delta x \over x \right | = \sqrt{ \left ( \Delta a \over a \right )^2 + \left ( \Delta b \over b \right )^2 + ... + \left ( \Delta z \over z \right )^2} \)
-                </p>
-
+                <div id="rltv_err_container" class="column_div">
+                    <p id="relative_error">
+                        \( \left | \Delta x \over x \right | = \sqrt{ \left ( \Delta a \over a \right )^2 + \left ( \Delta b \over b \right )^2 + ... + \left ( \Delta z \over z \right )^2} \)
+                    </p>    
+                </div>
+                
                 <div id="rltv_err_inputs">
                     <div>
                         <label for="n_rltv_err">n:</label>
-                        <input id="n_rltv_err" />
+                        <input id="n_rltv_err" tabindex="0"/>
                     </div>
                 </div>
 
-                <button id="calculate_rltv_err">Calculate</button>
+                <button id="calculate_rltv_err" tabindex="0">Calculate</button>
             </div>
         </div>
     </body>

@@ -3,6 +3,10 @@ p {
     padding: 0;
 }
 
+.invalid_input::placeholder {
+    color: crimson;
+}
+
 button {
     width: fit-content;
 }

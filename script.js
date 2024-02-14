@@ -2,24 +2,40 @@ const std_dev = document.querySelector("#std_dev");
 const deviation = std_dev.querySelector("#deviation");
 const std_dev_inputs = std_dev.querySelector("#std_dev_inputs");
 const n_std_dev = std_dev_inputs.querySelector("#n_std_dev");
+const avg_x = std_dev_inputs.querySelector("#avg_x");
 const n_rltv_err = document.querySelector("#n_rltv_err");
 const rltv_err_inputs = document.querySelector("#rltv_err_inputs");
 const calculate_deviation = std_dev.querySelector("#calculate_deviation");
-const calculateError = document.querySelector("#calculate_rltv_err");
+const calculate_rltv_err = document.querySelector("#calculate_rltv_err");
 
 let std_dev_elements = 0;
 let rltv_err_elements = 0;
 var letter = "a";
 let letterIndex = 0;
+let previous_input_values = {};
 
-n_std_dev.addEventListener("input", generateStandardDeviationInputs);
-n_rltv_err.addEventListener("input", generateRelativeErrorInputs);
+n_std_dev.addEventListener("input", () => {
+    generateStandardDeviationInputs();
+    inputOnlyIntegerNumbers(n_std_dev);
+});
+
+n_rltv_err.addEventListener("input", () => {
+    generateRelativeErrorInputs();
+    inputOnlyIntegerNumbers(n_rltv_err);
+});
+
+avg_x.addEventListener("input", () => inputOnlyNumbers(avg_x));
 calculate_deviation.addEventListener("click", calculateDeviation);
-calculateError.addEventListener("click", calculateRelativeError);
+calculate_rltv_err.addEventListener("click", calculateRelativeError);
 
 function generateStandardDeviationInputs() {
 
     let n_value = parseInt(n_std_dev.value);
+
+    if (n_value > 100) {
+        n_value = 100;
+        n_std_dev.value = 100;
+    }
     
     // delete standard deviation inputs
 
@@ -44,6 +60,7 @@ function generateStandardDeviationInputs() {
             std_dev_inputs.removeChild(std_dev_inputs.querySelector(`#std_dev_input_${i}`));
 
             std_dev_elements--;
+            delete previous_input_values[`x_${i}`];
         }
 
         return;
@@ -68,6 +85,8 @@ function generateStandardDeviationInputs() {
 
         input.id = `x_${i}`;
         input.tabIndex = 0;
+        previous_input_values[input.id] = '';
+        input.addEventListener("input", () => inputOnlyNumbers(input));
         
         div.appendChild(label);
         div.appendChild(input);
@@ -83,6 +102,11 @@ function generateStandardDeviationInputs() {
 function generateRelativeErrorInputs() {
 
     let n_value = parseInt(n_rltv_err.value);
+
+    if (n_value > 104) {
+        n_value = 104;
+        n_rltv_err.value = 104;
+    }
     
     // same as in the preceding function but for relative error
 
@@ -141,10 +165,14 @@ function generateRelativeErrorInputs() {
         deltaInput.id = "delta_" + letter + "_" + letterIndex;
         deltaInput.placeholder = letterIndex === 0 ? "Δ" + letter : "Δ" + letter + letterIndex;
         deltaInput.tabIndex = 0;
+        previous_input_values[deltaInput.id] = '';
+        deltaInput.addEventListener("input", () => inputOnlyNumbers(deltaInput));
 
         letterInput.id = letter + "_" + letterIndex;
         letterInput.placeholder = letterIndex === 0 ? letter : letter + letterIndex;
         letterInput.tabIndex = 0;
+        previous_input_values[letterInput.id] = '';
+        letterInput.addEventListener("input", () => inputOnlyNumbers(letterInput));
 
         fractionDiv.className = "fraction_div";
         fractionDiv.appendChild(deltaInput);
@@ -166,6 +194,27 @@ function generateRelativeErrorInputs() {
 }
 
 function calculateDeviation() {
+
+    let wasAnyInputInvalid = false;
+
+    std_dev_inputs.querySelectorAll("input").forEach(element => {
+
+        if (element.value === null || element.value.trim() === '') {
+            element.placeholder = "Field cannot be empty";
+            element.className = "invalid_input";
+            wasAnyInputInvalid = true;
+        }
+
+        else if (isNaN(element.value)) {
+            element.placeholder = "Insert a valid number";
+            element.className = "invalid_input";
+            wasAnyInputInvalid = true;
+        }
+    });
+
+    if (wasAnyInputInvalid) {
+        return;
+    }
 
     const deviation_copy_buttons_container = std_dev.querySelector("#deviation_copy_buttons_container");
     
@@ -230,6 +279,27 @@ function calculateDeviation() {
 
 function calculateRelativeError() {
     
+    let wasAnyInputInvalid = false;
+
+    rltv_err_inputs.querySelectorAll("input").forEach(element => {
+        
+        if (element.value === null || element.value.trim() === '') {
+            element.placeholder = "Field cannot be empty";
+            element.className = "invalid_input";
+            wasAnyInputInvalid = true;
+        }
+
+        else if (isNaN(element.value)) {
+            element.placeholder = "Insert a valid number";
+            element.className = "invalid_input";
+            wasAnyInputInvalid = true;
+        }
+    });
+
+    if (wasAnyInputInvalid) {
+        return;
+    }
+
     const rltv_err_copy_buttons_container = document.querySelector("#rltv_err_copy_buttons_container");
 
     if (rltv_err_copy_buttons_container !== null) {
@@ -347,4 +417,26 @@ function copyToClipboard(text, element) {
     });
 
     element.textContent = "Copied";
+}
+
+function inputOnlyIntegerNumbers(inputElement) {
+
+    // replace everything that is not a number
+    inputElement.value = inputElement.value.replaceAll(/\D/g, "");
+}
+
+function inputOnlyNumbers(inputElement) {
+
+    console.log(previous_input_values);
+
+    inputElement.value = inputElement.value.replaceAll(',', ".");
+
+    // replace everything that is not a number period or comma
+    inputElement.value = inputElement.value.replaceAll(/[^\d.]/g, "");
+
+    if (isNaN(inputElement.value)) {
+        inputElement.value = previous_input_values[inputElement.id];
+    }
+
+    previous_input_values[inputElement.id] = inputElement.value;
 }

@@ -3,16 +3,101 @@ p {
     padding: 0;
 }
 
-.invalid_input::placeholder {
-    color: crimson;
+input {
+    padding: 2px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
 }
 
 button {
     width: fit-content;
+    height: 30px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    background-color: white;
 }
 
-.copy_result_button, .copy_latex_button {
-    width: 95px;
+button:active {
+    background-color: whitesmoke;
+}
+
+.dark_body {
+    color: rgb(190, 190, 190);
+    background-color: rgb(32, 32, 32);
+}
+
+.dark_body *:not(button) {
+    color: rgb(190, 190, 190);
+    background-color: rgb(32, 32, 32);
+}
+
+.dark_body button {
+    background-color: rgb(190, 190, 190);
+    border-color: transparent;
+}
+
+.dark_body button:active {
+    background-color: darkgray;
+}
+
+#options_container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 5px;
+}
+
+#light_dark_container {
+    display: flex;
+    align-items: center;
+    column-gap: 7px;
+}
+
+#sun_icon {
+    height: 16px;
+    width: 16px;
+    background-color: rgb(32, 32, 32);
+}
+
+#sun_icon div {
+    height: 16px;
+    width: 16px;
+    background-color: rgb(32, 32, 32);
+    transform: rotate(45deg);
+}
+
+#light_dark_toggle_container {
+    z-index: 1;
+    display: flex;
+    padding: 3px;
+    width: 40px;
+    height: 20px;
+    border-radius: 15px;
+    background-color: rgb(32, 32, 32);
+}
+
+#light_dark_toggle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+#moon_icon {
+    width: 23px;
+    height: 20px;
+    margin-left: -1px;
+    border-radius: 50%;
+    background-color: rgb(32, 32, 32);
+}
+
+#moon_icon div {
+    margin-top: -2px;
+    margin-left: -1.5px;
+    width: 20px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: white;
 }
 
 .column_div {
@@ -25,13 +110,6 @@ button {
     display: flex;
     flex-direction: column;
     row-gap: 60px;
-}
-
-#deviation_copy_buttons_container, #rltv_err_copy_buttons_container {
-    display: flex;
-    flex-direction: column;
-    row-gap: 5px;
-    width: fit-content;
 }
 
 #std_dev_inputs, #rltv_err_inputs {
@@ -49,6 +127,21 @@ button {
 
 #rltv_err_inputs > div > * {
     align-self: center;
+}
+
+.invalid_input::placeholder {
+    color: crimson;
+}
+
+#deviation_copy_buttons_container, #rltv_err_copy_buttons_container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    width: fit-content;
+}
+
+.copy_result_button, .copy_latex_button {
+    width: 95px;
 }
 
 .fraction_div {

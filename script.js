@@ -1,3 +1,4 @@
+const light_dark_toggle_container = document.querySelector("#light_dark_toggle_container");
 const std_dev = document.querySelector("#std_dev");
 const deviation = std_dev.querySelector("#deviation");
 const std_dev_inputs = std_dev.querySelector("#std_dev_inputs");
@@ -8,11 +9,14 @@ const rltv_err_inputs = document.querySelector("#rltv_err_inputs");
 const calculate_deviation = std_dev.querySelector("#calculate_deviation");
 const calculate_rltv_err = document.querySelector("#calculate_rltv_err");
 
+let theme = "light";
 let std_dev_elements = 0;
 let rltv_err_elements = 0;
 var letter = "a";
 let letterIndex = 0;
 let previous_input_values = {};
+
+light_dark_toggle_container.addEventListener("click", changeTheme);
 
 n_std_dev.addEventListener("input", () => {
     generateStandardDeviationInputs();
@@ -27,6 +31,63 @@ n_rltv_err.addEventListener("input", () => {
 avg_x.addEventListener("input", () => inputOnlyNumbers(avg_x));
 calculate_deviation.addEventListener("click", calculateDeviation);
 calculate_rltv_err.addEventListener("click", calculateRelativeError);
+
+function changeTheme() {
+    
+    const light_dark_toggle = light_dark_toggle_container.querySelector("#light_dark_toggle");
+    const sun_icon = document.querySelector("#sun_icon");
+    const moon_icon = document.querySelector("#moon_icon");
+
+    if (theme === "light") {
+        
+        light_dark_toggle.animate(
+            {
+                transform: 'translateX(20px)'
+            }, 
+            {
+                duration: 200,
+                fill: 'forwards'
+            });
+
+        theme = "dark";
+
+        document.body.className = "dark_body";
+
+        light_dark_toggle.style.backgroundColor = "rgb(32, 32, 32)";
+        light_dark_toggle_container.style.backgroundColor = "rgb(190, 190, 190)";
+        
+        sun_icon.style.backgroundColor = "rgb(190, 190, 190)";
+        sun_icon.querySelector("div").style.backgroundColor = "rgb(190, 190, 190)";
+
+        moon_icon.style.backgroundColor = "rgb(190, 190, 190)";
+        moon_icon.querySelector("div").style.backgroundColor = "rgb(32, 32, 32)";
+    }
+
+    else {
+        
+        light_dark_toggle.animate(
+            {
+                transform: 'translateX(0px)'
+            }, 
+            {
+                duration: 200,
+                fill: 'forwards'
+            });
+
+        theme = "light";
+
+        document.body.className = "";
+        
+        light_dark_toggle.style.backgroundColor = "white";
+        light_dark_toggle_container.style.backgroundColor = "rgb(32, 32, 32)";
+
+        sun_icon.style.backgroundColor = "rgb(32, 32, 32)";
+        sun_icon.querySelector("div").style.backgroundColor = "rgb(32, 32, 32)";
+
+        moon_icon.style.backgroundColor = "rgb(32, 32, 32)";
+        moon_icon.querySelector("div").style.backgroundColor = "white";
+    }
+}
 
 function generateStandardDeviationInputs() {
 

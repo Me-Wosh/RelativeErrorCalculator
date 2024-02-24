@@ -1,3 +1,8 @@
+import translations from "./translations.json" with { type: "json" };
+
+const language_container = document.querySelector("#language_container");
+const language_icon = document.querySelector("#language_icon");
+const languages = language_container.querySelectorAll("p");
 const light_dark_toggle_container = document.querySelector("#light_dark_toggle_container");
 const std_dev = document.querySelector("#std_dev");
 const deviation = std_dev.querySelector("#deviation");
@@ -9,12 +14,21 @@ const rltv_err_inputs = document.querySelector("#rltv_err_inputs");
 const calculate_deviation = std_dev.querySelector("#calculate_deviation");
 const calculate_rltv_err = document.querySelector("#calculate_rltv_err");
 
+let languageSelectionVisible = false;
+let language = "english"
 let theme = "light";
 let std_dev_elements = 0;
 let rltv_err_elements = 0;
 var letter = "a";
 let letterIndex = 0;
 let previous_input_values = {};
+
+language_icon.addEventListener("click", showLanguagesList);
+
+languages.forEach(l => {
+
+    l.addEventListener("click", () => changeLanguage(l.textContent));
+});
 
 light_dark_toggle_container.addEventListener("click", changeTheme);
 
@@ -31,6 +45,74 @@ n_rltv_err.addEventListener("input", () => {
 avg_x.addEventListener("input", () => inputOnlyNumbers(avg_x));
 calculate_deviation.addEventListener("click", calculateDeviation);
 calculate_rltv_err.addEventListener("click", calculateRelativeError);
+
+function showLanguagesList() {
+
+    const language_selection = language_container.querySelector("#language_selection");
+
+    if (languageSelectionVisible) {
+
+        language_selection.style.visibility = "hidden";
+        languageSelectionVisible = false;
+
+    } else {
+
+        language_selection.style.visibility = "visible";
+        languageSelectionVisible = true;
+    }
+}
+
+function changeLanguage(selectedLanguage) {
+
+    language = selectedLanguage.toLowerCase();
+
+    const standard_deviation_text = document.querySelector("#standard_deviation_text");
+    const relative_error_text = document.querySelector("#relative_error_text");
+    const copy_result_buttons = document.querySelectorAll(".copy_result_button");
+    const copy_latex_buttons = document.querySelectorAll(".copy_latex_button");
+    const inputs = document.querySelectorAll("input");
+    
+    standard_deviation_text.textContent = translations["standard deviation"][language];
+    relative_error_text.textContent = translations["relative error"][language];
+    calculate_deviation.textContent = translations["calculate button"][language];
+    calculate_rltv_err.textContent = translations["calculate button"][language];
+
+    copy_result_buttons.forEach(b => {
+        b.textContent = translations["copy result button"][language];
+        b.title = translations["copy result button hint"][language];
+    });
+
+    copy_latex_buttons.forEach(b => {
+        b.textContent = translations["copy latex button"][language];
+        b.title = translations["copy latex button hint"][language];
+    });
+
+    inputs.forEach(i => {
+        
+        if (i.placeholder === "") {
+            return;
+        }
+
+        if (i.placeholder === translations["empty field error"]["english"]) {
+            
+            i.placeholder = translations["empty field error"][language];
+        } 
+        
+        else if (i.placeholder === translations["empty field error"]["polski"]) {
+
+            i.placeholder = translations["empty field error"][language];
+        } 
+        
+        else if (i.placeholder === translations["invalid number error"]["english"]) {
+
+            i.placeholder = translations["invalid number error"][language];
+        } 
+        
+        else {
+            i.placeholder = translations["invalid number error"][language];
+        }
+    });
+}
 
 function changeTheme() {
     
@@ -52,6 +134,8 @@ function changeTheme() {
         theme = "dark";
 
         document.body.className = "dark_body";
+
+        language_icon.style.filter = "invert(0.7)";
 
         light_dark_toggle.style.backgroundColor = "rgb(32, 32, 32)";
         light_dark_toggle_container.style.backgroundColor = "rgb(190, 190, 190)";
@@ -78,6 +162,8 @@ function changeTheme() {
 
         document.body.className = "";
         
+        language_icon.style.filter = "invert(0.1)";
+
         light_dark_toggle.style.backgroundColor = "white";
         light_dark_toggle_container.style.backgroundColor = "rgb(32, 32, 32)";
 
@@ -261,13 +347,13 @@ function calculateDeviation() {
     std_dev_inputs.querySelectorAll("input").forEach(element => {
 
         if (element.value === null || element.value.trim() === '') {
-            element.placeholder = "Field cannot be empty";
+            element.placeholder = translations["empty field error"][language];
             element.className = "invalid_input";
             wasAnyInputInvalid = true;
         }
 
         else if (isNaN(element.value)) {
-            element.placeholder = "Insert a valid number";
+            element.placeholder = translations["invalid number error"][language];
             element.className = "invalid_input";
             wasAnyInputInvalid = true;
         }
@@ -317,17 +403,17 @@ function calculateDeviation() {
     // remove \( at the beggining and \) at the end of the equation (this is the way MathJax handles LaTeX equations)
     equation = deviation.innerHTML.replaceAll("\\(", "").replaceAll("\\)", "");
 
-    copyResultButton.textContent = "Copy result";
-    copyResultButton.title = "Copies result";
+    copyResultButton.textContent = translations["copy result button"][language];
+    copyResultButton.title = translations["copy result button hint"][language];
     copyResultButton.className = "copy_result_button";
     copyResultButton.addEventListener("click", () => copyToClipboard(result, copyResultButton));
-    copyResultButton.addEventListener("mouseover", () => { copyResultButton.textContent = "Copy result"});
+    copyResultButton.addEventListener("mouseover", () => { copyResultButton.textContent = translations["copy result button"][language] });
 
-    copyLatexButton.textContent = "Copy equation";
-    copyLatexButton.title = "Copies entire equation in LaTeX";
+    copyLatexButton.textContent = translations["copy latex button"][language];
+    copyLatexButton.title = translations["copy latex button hint"][language];
     copyLatexButton.className = "copy_latex_button";
     copyLatexButton.addEventListener("click", () => copyToClipboard(equation, copyLatexButton));
-    copyLatexButton.addEventListener("mouseover", () => { copyLatexButton.textContent = "Copy equation"});
+    copyLatexButton.addEventListener("mouseover", () => { copyLatexButton.textContent = translations["copy latex button"][language] });
     
     copyButtonsContainer.id = "deviation_copy_buttons_container";
     copyButtonsContainer.appendChild(copyResultButton);
@@ -345,13 +431,13 @@ function calculateRelativeError() {
     rltv_err_inputs.querySelectorAll("input").forEach(element => {
         
         if (element.value === null || element.value.trim() === '') {
-            element.placeholder = "Field cannot be empty";
+            element.placeholder = translations["empty field error"][language];
             element.className = "invalid_input";
             wasAnyInputInvalid = true;
         }
 
         else if (isNaN(element.value)) {
-            element.placeholder = "Insert a valid number";
+            element.placeholder = translations["invalid number error"][language];
             element.className = "invalid_input";
             wasAnyInputInvalid = true;
         }
@@ -421,17 +507,17 @@ function calculateRelativeError() {
     // remove /( and /) from equation
     equation = relativeError.textContent.replaceAll("\\(", "").replaceAll("\\)", "");
 
-    copyResultButton.textContent = "Copy result";
-    copyResultButton.title = "Copies result";
+    copyResultButton.textContent = translations["copy result button"][language];
+    copyResultButton.title = translations["copy result button hint"][language];    
     copyResultButton.className = "copy_result_button";
     copyResultButton.addEventListener("click", () => copyToClipboard(result, copyResultButton));
-    copyResultButton.addEventListener("mouseover", () => { copyResultButton.textContent = "Copy result"});
+    copyResultButton.addEventListener("mouseover", () => { copyResultButton.textContent = translations["copy result button"][language] });
 
-    copyLatexButton.textContent = "Copy equation";
-    copyLatexButton.title = "Copies entire equation in LaTeX";
+    copyLatexButton.textContent = translations["copy latex button"][language];
+    copyLatexButton.title = translations["copy latex button hint"][language];
     copyLatexButton.className = "copy_latex_button";
     copyLatexButton.addEventListener("click", () => copyToClipboard(equation, copyLatexButton));
-    copyLatexButton.addEventListener("mouseover", () => { copyLatexButton.textContent = "Copy equation" });
+    copyLatexButton.addEventListener("mouseover", () => { copyLatexButton.textContent = translations["copy latex button"][language] });
 
     copyButtonsContainer.id = "rltv_err_copy_buttons_container";
     copyButtonsContainer.appendChild(copyResultButton);
@@ -470,14 +556,14 @@ function copyToClipboard(text, element) {
     const copyLatexButtons = document.querySelectorAll(".copy_latex_button");
 
     copyResultButtons.forEach(el => {
-        el.textContent = "Copy result";
+        el.textContent = translations["copy result button"][language];
     });
 
     copyLatexButtons.forEach(el => {
-        el.textContent = "Copy equation";
+        el.textContent = translations["copy latex button"][language];
     });
 
-    element.textContent = "Copied";
+    element.textContent = translations["copied message"][language];
 }
 
 function inputOnlyIntegerNumbers(inputElement) {
@@ -487,8 +573,6 @@ function inputOnlyIntegerNumbers(inputElement) {
 }
 
 function inputOnlyNumbers(inputElement) {
-
-    console.log(previous_input_values);
 
     inputElement.value = inputElement.value.replaceAll(',', ".");
 

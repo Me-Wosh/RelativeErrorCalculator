@@ -21,6 +21,10 @@ button:active {
     background-color: whitesmoke;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 .dark_body {
     color: rgb(190, 190, 190);
     background-color: rgb(32, 32, 32);
@@ -44,7 +48,57 @@ button:active {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    column-gap: 5px;
+    column-gap: 25px;
+}
+
+#language_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#language_icon {
+    width: 25px;
+    height: 25px;
+    justify-self: flex-end;
+    filter: invert(0.1);
+    background-color: transparent;
+}
+
+#language_icon:hover {
+    cursor: pointer;
+}
+
+#language_selection {
+    visibility: hidden;
+    position: absolute;
+    top: 35px;
+}
+
+#language_selection p {
+    padding: 5px;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+}
+
+#language_selection p:hover {
+    cursor: pointer;
+}
+
+#language_selection p:not(:last-child) {
+    border-bottom: 1px solid gray;
+}
+
+#language_selection p:first-child {
+    border-top: 1px solid gray;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#language_selection p:last-child {
+    border-bottom: 1px solid gray;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 #light_dark_container {
@@ -141,7 +195,7 @@ button:active {
 }
 
 .copy_result_button, .copy_latex_button {
-    width: 95px;
+    width: 105px;
 }
 
 .fraction_div {

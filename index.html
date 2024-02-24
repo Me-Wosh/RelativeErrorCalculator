@@ -6,7 +6,7 @@
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <link rel="stylesheet" href="style.css">
-        <script src="script.js" defer></script>
+        <script type="module" src="script.js" defer></script>
         <script>
             MathJax = {
                 options: {
@@ -22,6 +22,15 @@
     </head>
     <body>
         <div id="options_container">
+            <div id="language_container">
+                <img id="language_icon" src="language-icon.svg" alt="language selection icon"/>
+                
+                <div id="language_selection">
+                    <p>English</p>
+                    <p>Polski</p>
+                </div>
+            </div>
+
             <div id="light_dark_container">
                 <div id="sun_icon">
                     <div></div>
@@ -39,7 +48,7 @@
 
         <div id="container">
             <div id="std_dev" class="column_div">
-                <p>Standard deviation (odchylenie standardowe)</p>
+                <p id="standard_deviation_text">Standard deviation</p>
                 
                 <div id="deviation_container" class="column_div">
                     <p id="deviation">
@@ -63,7 +72,7 @@
             </div>
 
             <div id="rltv_err" class="column_div">
-                <p>Relative error (błąd względny)</p>
+                <p id="relative_error_text">Relative error</p>
 
                 <div id="rltv_err_container" class="column_div">
                     <p id="relative_error">

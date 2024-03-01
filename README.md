@@ -9,9 +9,13 @@ Live website: https://me-wosh.github.io/RelativeErrorCalculator/
 
 ## Documentation
 
-- ### Generating input fields based on given number and calculating result
+- ### Generating input fields based on given number and calculating standard deviation
 
 https://github.com/Me-Wosh/RelativeErrorCalculator/assets/101999705/63cdb94c-cbdb-4fd3-9d52-7374dbfad1ea
+
+- ### Calculating relative error
+
+https://github.com/Me-Wosh/RelativeErrorCalculator/assets/101999705/04a166c0-60fc-41d8-ab74-2c1a730dc0f3
 
 - ### Copying just the result / whole equation in LaTeX
 

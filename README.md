@@ -2,6 +2,8 @@
 
 Project that helped me calculate standard devation and relative error faster for physics classes and learn about LaTeX. It uses MathJax to generate LaTeX equations. Tested on desktop Safari, Brave and Google Chrome and mobile Firefox, Brave and Google Chrome.
 
+Live website: https://me-wosh.github.io/RelativeErrorCalculator/
+
 <img width="930" alt="desktop main page" src="https://github.com/Me-Wosh/RelativeErrorCalculator/assets/101999705/9c9332c4-41f6-4da7-867f-aa8f58ee4a56">
 <img width="320" alt="mobile main page" src="https://github.com/Me-Wosh/RelativeErrorCalculator/assets/101999705/2d9608a9-441e-42f7-a59b-6637c91cdcf0">
 

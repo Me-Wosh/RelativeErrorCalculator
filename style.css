@@ -4,6 +4,7 @@ p {
 }
 
 input {
+    width: 150px;
     padding: 2px;
     border: 1px solid lightgray;
     border-radius: 3px;
@@ -73,6 +74,9 @@ button:hover {
     visibility: hidden;
     position: absolute;
     top: 35px;
+    z-index: 1;
+    border-radius: 5px;
+    background-color: white;
 }
 
 #language_selection p {
@@ -195,7 +199,7 @@ button:hover {
 }
 
 .copy_result_button, .copy_latex_button {
-    width: 105px;
+    width: 100%;
 }
 
 .fraction_div {

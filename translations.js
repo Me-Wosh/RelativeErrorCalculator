@@ -1,4 +1,4 @@
-{
+export const translations = {
     "standard deviation": {
         "english": "Standard deviation",
         "polski": "Odchylenie standardowe"
@@ -12,6 +12,11 @@
     "calculate button": {
         "english": "Calculate",
         "polski": "Oblicz"
+    },
+
+    "default error": {
+        "english": "Error",
+        "polski": "Błąd"
     },
 
     "empty field error": {

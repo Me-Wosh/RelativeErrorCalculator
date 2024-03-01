@@ -1,7 +1,8 @@
-import translations from "./translations.json" with { type: "json" };
+import {translations} from "./translations.js";
 
 const language_container = document.querySelector("#language_container");
 const language_icon = document.querySelector("#language_icon");
+const language_selection = language_container.querySelector("#language_selection");
 const languages = language_container.querySelectorAll("p");
 const light_dark_toggle_container = document.querySelector("#light_dark_toggle_container");
 const std_dev = document.querySelector("#std_dev");
@@ -33,13 +34,13 @@ languages.forEach(l => {
 light_dark_toggle_container.addEventListener("click", changeTheme);
 
 n_std_dev.addEventListener("input", () => {
-    generateStandardDeviationInputs();
     inputOnlyIntegerNumbers(n_std_dev);
+    generateStandardDeviationInputs();
 });
 
 n_rltv_err.addEventListener("input", () => {
-    generateRelativeErrorInputs();
     inputOnlyIntegerNumbers(n_rltv_err);
+    generateRelativeErrorInputs();
 });
 
 avg_x.addEventListener("input", () => inputOnlyNumbers(avg_x));
@@ -47,8 +48,6 @@ calculate_deviation.addEventListener("click", calculateDeviation);
 calculate_rltv_err.addEventListener("click", calculateRelativeError);
 
 function showLanguagesList() {
-
-    const language_selection = language_container.querySelector("#language_selection");
 
     if (languageSelectionVisible) {
 
@@ -71,7 +70,10 @@ function changeLanguage(selectedLanguage) {
     const copy_result_buttons = document.querySelectorAll(".copy_result_button");
     const copy_latex_buttons = document.querySelectorAll(".copy_latex_button");
     const inputs = document.querySelectorAll("input");
-    
+
+    language_selection.style.visibility = "hidden";
+    languageSelectionVisible = false;
+
     standard_deviation_text.textContent = translations["standard deviation"][language];
     relative_error_text.textContent = translations["relative error"][language];
     calculate_deviation.textContent = translations["calculate button"][language];
@@ -93,23 +95,16 @@ function changeLanguage(selectedLanguage) {
             return;
         }
 
-        if (i.placeholder === translations["empty field error"]["english"]) {
-            
-            i.placeholder = translations["empty field error"][language];
-        } 
+        if (Object.values(translations["empty field error"]).includes(i.placeholder)) {
+            i.placeholder = translations["empty field error"][language];   
+        }
         
-        else if (i.placeholder === translations["empty field error"]["polski"]) {
-
-            i.placeholder = translations["empty field error"][language];
-        } 
-        
-        else if (i.placeholder === translations["invalid number error"]["english"]) {
-
+        else if (Object.values(translations["invalid number error"]).includes(i.placeholder)) {
             i.placeholder = translations["invalid number error"][language];
-        } 
-        
+        }
+
         else {
-            i.placeholder = translations["invalid number error"][language];
+            i.placeholder = translations["default error"][language];
         }
     });
 }
@@ -241,7 +236,7 @@ function generateStandardDeviationInputs() {
         std_dev_inputs.appendChild(div);
 
         std_dev_elements++;
-    }
+    }    
 
     MathJax.typeset();
 }
@@ -364,12 +359,12 @@ function calculateDeviation() {
     }
 
     const deviation_copy_buttons_container = std_dev.querySelector("#deviation_copy_buttons_container");
-    
+    const deviation_container = std_dev.querySelector("#deviation_container");
+
     if (deviation_copy_buttons_container !== null) {
         deviation_container.removeChild(deviation_copy_buttons_container);
     }
-
-    const deviation_container = std_dev.querySelector("#deviation_container");
+    
     const avg_x = std_dev_inputs.querySelector("#avg_x");
     const copyButtonsContainer = document.createElement("div");
     const copyResultButton = document.createElement("button");
@@ -378,7 +373,7 @@ function calculateDeviation() {
     let equation = "";
     
     // set standard deviation value back to default
-    deviation.innerHTML = "\\(\\Delta x = \\sqrt{ \\displaystyle\\sum_{i=1}^{N}(\\bar x - x_i)^2 \\over N - 1}\\)";
+    deviation.innerHTML = "\\(\\Delta x = \\sqrt{ \\displaystyle\\sum_{i=1}^{N}(\\bar x - x_i)^2 \\over N - 1} \\)";
 
     deviation.innerHTML += "\\( = \\sqrt{";
     
@@ -398,9 +393,10 @@ function calculateDeviation() {
     result /= std_dev_elements - 1;
     result = Math.sqrt(result);
 
-    deviation.innerHTML += "\\over " + (std_dev_elements - 1) + "} = " + result + "\\)";
+    deviation.innerHTML += "\\over " + (std_dev_elements - 1) + "} \\)" + "\\( = " + result + "\\)";
     
-    // remove \( at the beggining and \) at the end of the equation (this is the way MathJax handles LaTeX equations)
+    // remove \( at the beggining and \) at the end of the equation (this is the way MathJax
+    // handles LaTeX equations but in regular LaTeX these symbols are unnecessary)
     equation = deviation.innerHTML.replaceAll("\\(", "").replaceAll("\\)", "");
 
     copyResultButton.textContent = translations["copy result button"][language];
@@ -448,12 +444,12 @@ function calculateRelativeError() {
     }
 
     const rltv_err_copy_buttons_container = document.querySelector("#rltv_err_copy_buttons_container");
+    const rltv_err_container = document.querySelector("#rltv_err_container");
 
     if (rltv_err_copy_buttons_container !== null) {
-        document.removeChild(rltv_err_copy_buttons_container);
+        rltv_err_container.removeChild(rltv_err_copy_buttons_container);
     }
-
-    const rltv_err_container = document.querySelector("#rltv_err_container");
+    
     const relativeError = document.querySelector("#relative_error");
     const copyButtonsContainer = document.createElement("div");
     const copyResultButton = document.createElement("button");
@@ -488,7 +484,8 @@ function calculateRelativeError() {
         letter = getNextLetter();
     }
 
-    relativeError.textContent += "} = \\sqrt{";
+    relativeError.textContent += "} \\)"
+    relativeError.textContent += "\\( = \\sqrt{";
 
     // fill equation same as before but with actual numbers
 
@@ -502,7 +499,7 @@ function calculateRelativeError() {
     };
 
     result = Math.sqrt(result);
-    relativeError.textContent += "} = " + result + "\\)";
+    relativeError.textContent += "} \\)" + "\\( = " + result + "\\)";
 
     // remove /( and /) from equation
     equation = relativeError.textContent.replaceAll("\\(", "").replaceAll("\\)", "");
@@ -549,9 +546,18 @@ function getPreviousLetter() {
 }
 
 function copyToClipboard(text, element) {
-    
-    navigator.clipboard.writeText(text);
 
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+    } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    }
+        
     const copyResultButtons = document.querySelectorAll(".copy_result_button");
     const copyLatexButtons = document.querySelectorAll(".copy_latex_button");
 
